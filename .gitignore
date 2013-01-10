@@ -1,4 +1,13 @@
-*.class
+#eclipse files
+.project
+.classpath
+.settings
+#idea
+*.iml
+.idea
+
+#maven
+target
 
 # Package Files #
 *.jar
