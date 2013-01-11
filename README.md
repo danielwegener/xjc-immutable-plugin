@@ -16,7 +16,7 @@ Instead of standard JAX-B beans like in the following example
 TODO example
 ```
 
-this plugin generates immutable, threadsafe and still serializable beans like in the following example
+this plugin generates immutable, threadsafe and still serializable beans like in the following example.
 ```
 TODO example
 ```
@@ -101,4 +101,10 @@ In contract first scenarios webservice clients models are often generated with j
 
 Processing Rules
 ---------------------
-TODO
+This plugin
+- makes all fields final
+- removes all setter methods
+- creates a public constructor with value fields
+- creates a protected no-arg constructor, initializing fields with null (primitives with zero or false)
+- wraps all collection like parameters with Collection.unmodifiable. views
+- if a collection type field is null, a Collection.empty. is returned
