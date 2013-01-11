@@ -86,9 +86,7 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
             for (final JFieldVar field : thisClassInstanceFields) {
 
                 // Make field final
-                final JMods fieldMods = field.mods();
-                final String fieldName = field.name();
-                fieldMods.setFinal(true);
+                field.mods().setFinal(true);
 
                 final JMethod getter = findGetter(implClass,field);
                 if (getter != null) {
@@ -118,9 +116,7 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
                     final JInvocation superInvocation = valueConstructor.body().invoke("super");
                     // Add each argument to the super constructor.
                     for (JFieldVar superClassField : superClassInstanceFields) {
-
                         final JVar arg = valueConstructor.param(JMod.FINAL, superClassField.type(), superClassField.name());
-                        final JExpression wrappedParameter = wrapCollectionsWithUnmodifiable(model, arg);
                         superInvocation.arg(arg);
                     }
                 }
@@ -179,7 +175,6 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
 
     protected JMethod findGetter(JDefinedClass clazz, JFieldVar field) {
         final String fieldName = field.name();
-        final JType getterType = field.type();
         final String  getterName =  "get"+Character.toUpperCase(fieldName.charAt(0))+fieldName.substring(1);
         return clazz.getMethod(getterName, new JType[0]);
     }
@@ -225,9 +220,6 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
      *      else return x;
      *     }
      * </pre>
-     * @param model
-     * @param getter
-     * @param field
      */
     protected void returnEmptyCollectionInsteadOfReassignFinalValue(JCodeModel model, JMethod getter, JFieldVar field) {
         final JClass collectionType = model.ref(Collection.class);
@@ -258,7 +250,6 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
         }
 
         final JBlock body = getter.body();
-
        clearBlock(body);
 
         final JConditional ifBlock = body._if(field.eq(JExpr._null()));
@@ -269,12 +260,12 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
 
 
     protected void clearBlock(JBlock block) {
-        //FIXME: This is bad and not spec conformant
+        //FIXME: This is bad and not spec-conform
         try {
             final Field bodyContentField = JBlock.class.getDeclaredField("content");
             bodyContentField.setAccessible(true);
-            final List<Object> content;
-            content = (List<Object>)bodyContentField.get(block);
+            final List<?> content;
+            content = (List<?>)bodyContentField.get(block);
             content.clear();
         } catch (NoSuchFieldException e) {
             throw new RuntimeException("Could not reset JBlock",e);
@@ -307,23 +298,11 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
         } else if (var.type().erasure().equals(sortedMapType)) {
             return collections.staticInvoke("unmodifiableSortedMap").arg(var);
         }
-
         return var;
     }
 
     protected boolean isStatic(final JFieldVar field) {
         final JMods fieldMods = field.mods();
-        final boolean isStaticField = (fieldMods.getValue() & JMod.STATIC) > 0;
-        return isStaticField;
-    }
-
-    protected boolean isTransient(final JFieldVar field) {
-        final JMods fieldMods = field.mods();
-        if ((fieldMods.getValue() & JMod.TRANSIENT) > 0) return true;
-        for (JAnnotationUse annotation : field.annotations()) {
-            if (annotation.getAnnotationClass().name().equals("javax.xml.bind.annotation.Transient"))
-                return false;
-        }
-        return false;
+        return (fieldMods.getValue() & JMod.STATIC) > 0;
     }
 }
