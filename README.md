@@ -104,7 +104,7 @@ Processing Rules
 This plugin
 - makes all fields final
 - removes all setter methods
-- creates a public constructor with value fields
+- creates a public constructor with all fields as parameters
 - creates a protected no-arg constructor, initializing fields with null (primitives with zero or false)
 - wraps all collection like parameters with Collection.unmodifiable. views
 - if a collection type field is null, a Collection.empty. is returned
