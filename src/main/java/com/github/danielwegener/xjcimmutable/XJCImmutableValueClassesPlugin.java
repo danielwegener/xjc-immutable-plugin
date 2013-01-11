@@ -275,6 +275,17 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
         block.pos(0);
     }
 
+    /*protected JExpression wrapDateWithCopy(JCodeModel model, JVar var) {
+        final JType dateType = model._ref(Date.class);
+        if (!var.type().equals(dateType))
+            return var;
+        final JBlock content = new JBlock();
+        final JConditional cond = content._if(var.eq(JExpr._null()));
+        cond._then()._return(var.assign(JExpr._null()));
+        cond._else()._return(JExpr._new(dateType).arg(var));
+        return JExpr.direct("("+var.name()+" == null)?null:new Date("+var.name()+");");
+    }*/
+
     protected JExpression wrapCollectionsWithUnmodifiable(JCodeModel model, JVar var) {
         if (skipUnmodifiableCollections) return var;
         final JClass collectionType = model.ref(Collection.class);
