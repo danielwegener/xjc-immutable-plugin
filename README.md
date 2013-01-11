@@ -12,14 +12,14 @@ Profit!
 Example
 ---------------------
 Instead of standard JAX-B beans like in the following example
-´´´
+```
 TODO example
-´´´
+```
 
 this plugin generates immutable, threadsafe and still serializable beans like in the following example
-´´´
+```
 TODO example
-´´´
+```
 
 
 Usage
@@ -30,7 +30,7 @@ Usage
 In contract first scenarios webservice clients models are often generated with jaxws.wsgen or
 
 # using jaxws-maven-plugin
-´´´
+```
 <plugin>
     <groupId>org.jvnet.jax-ws-commons</groupId>
     <artifactId>jaxws-maven-plugin</artifactId>
@@ -59,10 +59,11 @@ In contract first scenarios webservice clients models are often generated with j
         </dependency>
     </dependencies>
 </plugin>
+```
 
-´´´
 # using cxf-codegen-plugin
-´´´
+
+```
 <plugin>
     <groupId>org.apache.cxf</groupId>
     <artifactId>cxf-codegen-plugin</artifactId>
@@ -96,6 +97,7 @@ In contract first scenarios webservice clients models are often generated with j
         </dependency>
     </dependencies>
 </plugin>
+```
 
 Processing Rules
 ---------------------
