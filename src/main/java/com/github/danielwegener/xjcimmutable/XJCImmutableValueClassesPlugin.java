@@ -41,10 +41,11 @@ import java.util.*;
  * @author Daniel Wegener
  * @author Kenny MacLeod
  */
-public class XjcImmutableValueClassesPlugin extends Plugin {
+public class XJCImmutableValueClassesPlugin extends Plugin {
 
     public static final String OPTION_NAME = "Ximmutable-model";
     public static final String SKIP_UNMODIFIABLE_COLLECTIONS_PARAM = "-"+OPTION_NAME + ":skipUnmodifiableCollections";
+    public static final String SKIP_MAKE_FIELDS_FINAL_PARAM = "-"+OPTION_NAME + ":skipMakeFieldsFinal";
 
     @Override
     public String getOptionName() {
@@ -54,7 +55,8 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
     @Override
     public String getUsage() {
         return "  -" + OPTION_NAME + "\t:  enable generation of immutable domain model"
-             + "\n    -" + SKIP_UNMODIFIABLE_COLLECTIONS_PARAM + "\t:  dont wrap collection parameters with Collections.unmodifiable...";
+             + "\n    -" + SKIP_UNMODIFIABLE_COLLECTIONS_PARAM + "\t:  dont wrap collection parameters with Collections.unmodifiable..."
+             + "\n    -" + SKIP_MAKE_FIELDS_FINAL_PARAM + "\t:  do not make fields private. This provides a pseudo-immutablilty.";
 
     }
 
@@ -65,11 +67,15 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
         if (SKIP_UNMODIFIABLE_COLLECTIONS_PARAM.equals(arg)) {
             skipUnmodifiableCollections = true;
             return 1;
+        } else if(SKIP_MAKE_FIELDS_FINAL_PARAM.equals(arg)) {
+            skipMakeFieldsFinal = true;
+            return 1;
         }
         return 0;
     }
 
     private boolean skipUnmodifiableCollections = false;
+    private boolean skipMakeFieldsFinal = false;
 
     @Override
     public boolean run(final Outline outline, final Options options, final ErrorHandler errorHandler) {
@@ -86,7 +92,8 @@ public class XjcImmutableValueClassesPlugin extends Plugin {
             for (final JFieldVar field : thisClassInstanceFields) {
 
                 // Make field final
-                field.mods().setFinal(true);
+                if (!skipMakeFieldsFinal)
+                    field.mods().setFinal(true);
 
                 final JMethod getter = findGetter(implClass,field);
                 if (getter != null) {
