@@ -3,8 +3,8 @@ xjc-immutable-plugin
 
 Ever got lost in the JAX-WS wsgen swamp on the way to highroad of immutable models?
 
-This XJC (JAX-B Compiler) Plugin comes for the rescue and provides generating of
-immutable value object model from xml schema. To be honest, this is not JAX-B
+This XJC (JAX-B Compiler) Plugin comes for the rescue and provides the generation of
+immutable value classes from xml schema. To be honest, this is not JAX-B
 standard conform, but it should work in most implementations.
 
 Profit!
@@ -16,7 +16,7 @@ Instead of standard JAX-B beans like in the following example
 TODO example
 ```
 
-this plugin generates immutable, threadsafe and still serializable beans like in the following example.
+this plugin generates immutable, thread-safe and still serializable value classes like in the following example.
 ```
 TODO example
 ```
@@ -27,7 +27,9 @@ Usage
 
 *xjc-immutable-plugin is not yet in central*
 
-In contract first scenarios webservice clients models are often generated with jaxws.wsgen or
+
+In contract first scenarios webservice clients are often generated with wsgen. The resulting source- or bytecode
+confirms the standard bean contract. But we love immutability!
 
 # using jaxws-maven-plugin
 ```
@@ -99,6 +101,10 @@ In contract first scenarios webservice clients models are often generated with j
 </plugin>
 ```
 
+# direct xjc invokation
+
+TODO: example
+
 Processing Rules
 ---------------------
 This plugin
@@ -106,5 +112,6 @@ This plugin
 - removes all setter methods
 - creates a public constructor with all fields as parameters
 - creates a protected no-arg constructor, initializing fields with null (primitives with zero or false)
-- wraps all collection like parameters with Collection.unmodifiable. views
-- if a collection type field is null, a Collection.empty. is returned
+- wraps all collection like parameters with Collection.unmodifiableX views
+- if a collection type field is null, a Collection.emptyX is returned
+- TODO: if the ctor-argument type is a java.util.Date and the argument is not null, it will be copied with Dates copy-ctor
