@@ -38,9 +38,9 @@
     </issueManagement>
 
     <scm>
-        <url>scm:git:git@github.com:danielwegener/xml-immutable-plugin.git</url>
-        <connection>scm:git:git@github.com/danielwegener/xml-immutable-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com/danielwegener/xml-immutable-plugin.git</developerConnection>
+        <url>scm:git:git@github.com:danielwegener/xjc-immutable-plugin.git</url>
+        <connection>scm:git:git@github.com/danielwegener/xjc-immutable-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com/danielwegener/xjc-immutable-plugin.git</developerConnection>
     </scm>
 
     <developers>
