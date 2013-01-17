@@ -10,6 +10,7 @@
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
+    <url>https://github.com/danielwegener/xjc-immutable-plugin</url>
 
     <licenses>
         <license>
