@@ -90,10 +90,10 @@ confirms the standard bean contract. But we love immutability!
     </executions>
     <dependencies>
         <dependency>
-            <artifactId>xjc-immutable-plugin</artifactId>
-            <groupId>com.github.danielwegener</groupId>
-            <version>0.1</version>
-        </dependency>
+           <groupId>com.github.danielwegener.xjc</groupId>
+           <artifactId>xjc-guava-plugin</artifactId>
+           <version>0.1</version>
+       </dependency>
     </dependencies>
 </plugin>
 ```
