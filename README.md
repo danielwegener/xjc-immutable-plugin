@@ -25,9 +25,6 @@ TODO example
 Usage
 ---------------------
 
-*xjc-immutable-plugin is not yet in central*
-
-
 In contract first scenarios webservice clients are often generated with wsgen. The resulting source- or bytecode
 confirms the standard bean contract. But we love immutability!
 
@@ -54,11 +51,11 @@ confirms the standard bean contract. But we love immutability!
         </execution>
     </executions>
     <dependencies>
-        <dependency>
-            <artifactId>xjc-immutable-plugin</artifactId>
-            <groupId>com.github.danielwegener</groupId>
-            <version>0.1</version>
-        </dependency>
+       <dependency>
+           <groupId>com.github.danielwegener.xjc</groupId>
+           <artifactId>xjc-guava-plugin</artifactId>
+           <version>0.1</version>
+       </dependency>
     </dependencies>
 </plugin>
 ```
