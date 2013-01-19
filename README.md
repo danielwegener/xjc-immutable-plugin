@@ -13,14 +13,58 @@ Example
 ---------------------
 Instead of standard JAX-B beans like in the following example
 ```
-TODO example
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "thunderbolt", propOrder = {
+    "intensity"
+})
+public class Thunderbolt {
+
+    protected Double intensity;
+
+    public Double getIntensity() {
+        return intensity;
+    }
+
+    public void setIntensity(Double value) {
+        this.intensity = value;
+    }
+}
 ```
 
-this plugin generates immutable, thread-safe and still serializable value classes like in the following example.
+This plugin generates immutable, thread-safe and still serializable value classes like in the following example.
 ```
-TODO example
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "thunderbolt", propOrder = {
+    "intensity"
+})
+public class Thunderbolt {
+
+    protected final Double intensity;
+
+    public Thunderbolt(final Double intensity) {
+        this.intensity = intensity;
+    }
+
+    @SuppressWarnings("unused")
+    protected Thunderbolt() {
+        super();
+        this.intensity = null;
+    }
+
+    public Double getIntensity() {
+        return intensity;
+    }
+
+}
 ```
 
+This plugin
+- marks all fields final and removes all setter methods
+- creates a public constructor with all fields as parameters
+- creates a protected no-arg constructor, initializing fields with null (primitives with zero or false)
+- wraps all collection like parameters with Collection.unmodifiable views
+- within getters, if a collection typed field is null, a Collection.emptyX is returned
+- TODO: if the ctor-argument type is a java.util.Date and the argument is not null, it will be copied with Dates copy-ctor
 
 Usage
 ---------------------
@@ -101,14 +145,3 @@ confirms the standard bean contract. But we love immutability!
 # direct xjc invokation
 
 TODO: example
-
-Processing Rules
----------------------
-This plugin
-- makes all fields final
-- removes all setter methods
-- creates a public constructor with all fields as parameters
-- creates a protected no-arg constructor, initializing fields with null (primitives with zero or false)
-- wraps all collection like parameters with Collection.unmodifiableX views
-- if a collection type field is null, a Collection.emptyX is returned
-- TODO: if the ctor-argument type is a java.util.Date and the argument is not null, it will be copied with Dates copy-ctor
