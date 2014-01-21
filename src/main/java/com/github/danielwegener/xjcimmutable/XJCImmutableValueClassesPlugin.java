@@ -46,6 +46,7 @@ public class XJCImmutableValueClassesPlugin extends Plugin {
     public static final String OPTION_NAME = "Ximmutable-model";
     public static final String SKIP_UNMODIFIABLE_COLLECTIONS_PARAM = "-"+OPTION_NAME + ":skipUnmodifiableCollections";
     public static final String SKIP_MAKE_FIELDS_FINAL_PARAM = "-"+OPTION_NAME + ":skipMakeFieldsFinal";
+    public static final String SKIP_SUPPRESS_UNUSED_PARAM = "-"+OPTION_NAME + ":skipSuppressUnused";
 
     @Override
     public String getOptionName() {
@@ -56,7 +57,8 @@ public class XJCImmutableValueClassesPlugin extends Plugin {
     public String getUsage() {
         return "  -" + OPTION_NAME + "\t:  enable generation of immutable domain model"
              + "\n    -" + SKIP_UNMODIFIABLE_COLLECTIONS_PARAM + "\t:  dont wrap collection parameters with Collections.unmodifiable..."
-             + "\n    -" + SKIP_MAKE_FIELDS_FINAL_PARAM + "\t:  do not make fields private. This provides a pseudo-immutablilty.";
+             + "\n    -" + SKIP_MAKE_FIELDS_FINAL_PARAM + "\t:  do not make fields private. This provides a pseudo-immutablilty."
+             + "\n    -" + SKIP_SUPPRESS_UNUSED_PARAM+ "\t:  do not add @SuppressWarnings(\"unused\") to default constructor.";
 
     }
 
@@ -70,10 +72,14 @@ public class XJCImmutableValueClassesPlugin extends Plugin {
         } else if(SKIP_MAKE_FIELDS_FINAL_PARAM.equals(arg)) {
             skipMakeFieldsFinal = true;
             return 1;
+        } else if (SKIP_SUPPRESS_UNUSED_PARAM.equals(arg)) {
+            skipSuppressUnusedParam = true;
+            return 1;
         }
         return 0;
     }
 
+    private boolean skipSuppressUnusedParam = false;
     private boolean skipUnmodifiableCollections = false;
     private boolean skipMakeFieldsFinal = false;
 
@@ -143,8 +149,10 @@ public class XJCImmutableValueClassesPlugin extends Plugin {
             if (createDefaultCtor) {
                 // Create the default, no-arg constructor
                 final JMethod defaultConstructor = implClass.constructor(JMod.PROTECTED);
-                final JAnnotationUse suppressWarningAnnotation = defaultConstructor.annotate(SuppressWarnings.class);
-                suppressWarningAnnotation.param("value", "unused");
+                if (!skipSuppressUnusedParam) {
+                    final JAnnotationUse suppressWarningAnnotation = defaultConstructor.annotate(SuppressWarnings.class);
+                    suppressWarningAnnotation.param("value", "unused");
+                }
                 defaultConstructor.javadoc().add("Used by JAX-B");
                 defaultConstructor.body().invoke("super");
 
