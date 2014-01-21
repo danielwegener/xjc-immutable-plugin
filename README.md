@@ -1,6 +1,8 @@
 xjc-immutable-plugin
 ====================
 
+[![Build Status](https://secure.travis-ci.org/danielwegener/xjc-immutable-plugin.png)](https://travis-ci.org/danielwegener/xjc-immutable-plugin)
+
 Ever got lost in the JAX-WS wsgen swamp on the way to highroad of immutable models?
 
 This XJC (JAX-B Compiler) Plugin comes for the rescue and provides the generation of
@@ -12,7 +14,7 @@ Profit!
 Example
 ---------------------
 Instead of standard JAX-B beans like in the following example
-```
+```java
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "thunderbolt", propOrder = {
     "intensity"
@@ -32,7 +34,7 @@ public class Thunderbolt {
 ```
 
 This plugin generates immutable, thread-safe and still serializable value classes like in the following example.
-```
+```java
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "thunderbolt", propOrder = {
     "intensity"
@@ -73,7 +75,7 @@ In contract first scenarios webservice clients are often generated with wsgen. T
 confirms the standard bean contract. But we love immutability!
 
 # using jaxws-maven-plugin
-```
+```xml
 <plugin>
     <groupId>org.jvnet.jax-ws-commons</groupId>
     <artifactId>jaxws-maven-plugin</artifactId>
@@ -106,7 +108,7 @@ confirms the standard bean contract. But we love immutability!
 
 # using cxf-codegen-plugin
 
-```
+```xml
 <plugin>
     <groupId>org.apache.cxf</groupId>
     <artifactId>cxf-codegen-plugin</artifactId>
