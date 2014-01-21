@@ -3,7 +3,7 @@ package com.github.danielwegener.xjcimmutable;
 import org.junit.Test;
 import com.sun.codemodel.*;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -70,7 +70,7 @@ public class XJCImmutableValueClassesPluginTest {
 
     @Test
     public void testGetInstanceFields() {
-        Collection<JFieldVar> instanceFields =  plugin.getInstanceFields(aClass.fields().values());
+        final Collection<JFieldVar> instanceFields =  plugin.getInstanceFields(aClass.fields().values());
         assertThat(instanceFields, not(hasItem(aStaticField)));
         assertThat(instanceFields, not(empty()));
     }
