@@ -154,13 +154,14 @@ public class XJCImmutableValueClassesPlugin extends Plugin {
                     suppressWarningAnnotation.param("value", "unused");
                 }
                 defaultConstructor.javadoc().add("Used by JAX-B");
-                defaultConstructor.body().invoke("super");
 
                 if (implClass._extends() instanceof JDefinedClass) {
                     final JInvocation defaultSuperInvocation = defaultConstructor.body().invoke("super");
                     for (JFieldVar superClassField : superClassInstanceFields) {
                         defaultSuperInvocation.arg(defaultValue(model, superClassField.type()));
                     }
+                } else {
+                    defaultConstructor.body().invoke("super");
                 }
 
                 for (final JFieldVar field : thisClassInstanceFields) {

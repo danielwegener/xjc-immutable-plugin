@@ -21,31 +21,45 @@
                 </xs:sequence>
             </xs:complexType>
 
+            <xs:complexType name="weatherEvent" abstract="true">
+                <xs:sequence>
+                    <xs:element name="predictedInstant" maxOccurs="1" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+
             <xs:complexType name="forecast">
                 <xs:sequence>
-                    <xs:element name="thunderbolts">
+                    <xs:element name="events">
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
-                                    <xs:complexType>
-                                        <xs:sequence>
-                                            <xs:element name="key" minOccurs="0" type="xs:dateTime"/>
-                                            <xs:element name="value" minOccurs="0" type="tns:thunderbolt"/>
-                                        </xs:sequence>
-                                    </xs:complexType>
-                                </xs:element>
+                                <xs:element name="event" minOccurs="0" maxOccurs="unbounded" type="tns:weatherEvent"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
-                    <xs:element name="raindropImpact" type="xs:dateTime" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="raindropImpact" type="xs:positiveInteger" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:complexType>
 
             <xs:complexType name="thunderbolt">
-                <xs:sequence>
-                    <xs:element name="intensity" type="xs:double" minOccurs="0"/>
-                </xs:sequence>
+                <xs:complexContent>
+                    <xs:extension base="tns:weatherEvent">
+                        <xs:sequence>
+                            <xs:element name="intensity" type="xs:double" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
             </xs:complexType>
+
+            <xs:complexType name="godsAnger">
+                <xs:complexContent>
+                    <xs:extension base="tns:thunderbolt">
+                        <xs:sequence>
+                            <xs:element name="evilGodsName" type="xs:string" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+
         </xs:schema>
     </types>
     <message name="getForecast">
