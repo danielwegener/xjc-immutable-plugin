@@ -2,6 +2,7 @@ xjc-immutable-plugin
 ====================
 
 [![Build Status](https://secure.travis-ci.org/danielwegener/xjc-immutable-plugin.png)](https://travis-ci.org/danielwegener/xjc-immutable-plugin)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.danielwegener.xjc/xjc-immutable-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.danielwegener.xjc/xjc-immutable-plugin)
 
 Ever got lost in the JAX-WS wsgen swamp on the way to highroad of immutable models?
 
