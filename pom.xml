@@ -90,6 +90,7 @@
                                     <goal>wsimport</goal>
                                 </goals>
                                 <configuration>
+                                    <packageName>com.github.danielwegener.xjcimmutable.wsimport.model</packageName>
                                     <wsdlFiles>
                                         <wsdlFile>${basedir}/src/test/resources/test.wsdl</wsdlFile>
                                     </wsdlFiles>
